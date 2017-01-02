@@ -1,6 +1,7 @@
 # httpserver
 
-The httpserver is a simple implementation of an HTTP server. This is a personal project developed by [Rubens](http://www.rubens-gomes.com).
+The httpserver is simple implementation of an HTTP server . This is personal 
+project developed by [Rubens](http://www.rubens-gomes.com).
 
 **This is a work in progress !**
 

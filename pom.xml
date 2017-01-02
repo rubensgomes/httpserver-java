@@ -215,7 +215,7 @@
   <!--****************************************************************** -->
 
   <!--************** POM: Project Information ************************** -->
-  <name>threadpool</name>
+  <name>httpserver</name>
   <description>An HTTP server implementation in Java</description>
   <url>www.rubens-gomes.com</url>
   <inceptionYear>2000</inceptionYear>
