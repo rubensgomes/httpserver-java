@@ -8,6 +8,9 @@
  */
 package com.softlagos.httpserver;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.softlagos.Constants;
 import com.softlagos.httpserver.enums.HttpRequestMethodType;
 
@@ -25,6 +28,10 @@ import com.softlagos.httpserver.enums.HttpRequestMethodType;
  */
 public final class HttpRequestLine
 {
+    /** The logger. */
+    private static final Logger logger =
+            LogManager.getLogger(HttpRequestLine.class);
+
     /**
      * Instantiates a new HTTP client request line.
      *
@@ -146,6 +153,11 @@ public final class HttpRequestLine
     public static void validate(String requestLine)
         throws HttpClientErrorException
     {
+        if(logger.isTraceEnabled())
+        {
+            logger.trace("validating request-line [" + requestLine + "].");
+        }
+
         if( requestLine == null ||
                 requestLine.trim().length() == 0 )
         {

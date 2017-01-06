@@ -13,15 +13,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.util.Map;
+import java.nio.charset.Charset;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.softlagos.Constants;
-import com.softlagos.httpserver.enums.HttpRequestMethodType;
 import com.softlagos.reactor.SocketHandle;
 import com.softlagos.threadpool.Task;
 
@@ -69,7 +68,7 @@ public final class HttpTask extends Task
             }
 
             OutputStream out = socket.getOutputStream();
-            v_writer = new PrintWriter(out);
+            v_writer = new OutputStreamWriter(out, Charset.forName("UTF-8"));
         }
         catch(IOException ex)
         {
@@ -103,12 +102,20 @@ public final class HttpTask extends Task
             HttpRequest request = readRequest(socket);
             // print out request
             request.trace();
+            // TODO: retrieve Resource and respond.
         }
         catch(Exception ex)
         {
             HttpErrorHandler handler =
                     new HttpErrorHandler(ex, v_writer);
-            handler.sendResponse();
+            try
+            {
+                handler.sendResponse();
+            }
+            catch(Exception ioex)
+            {
+                logger.error("error writing response: " + ioex.getMessage());
+            }
         }
 
     }
@@ -147,7 +154,7 @@ public final class HttpTask extends Task
 
                 if(logger.isTraceEnabled())
                 {
-                    logger.trace("validating request_line [" +
+                    logger.trace("instantiating request_line object [" +
                             input_line + "]");
                 }
 
@@ -180,8 +187,10 @@ public final class HttpTask extends Task
                   {
                       String msg = "Illegal HTTP Header field: " +
                               input_line;
-                      logger.error(msg);
-                      throw new HttpClientErrorException(400, msg);
+                      if(logger.isInfoEnabled())
+                      {
+                          logger.info(msg);
+                      }
                   }
                   else
                   {
@@ -216,5 +225,5 @@ public final class HttpTask extends Task
     private final BufferedReader v_reader;
 
     /** The v_writer. */
-    private final PrintWriter v_writer;
+    private final OutputStreamWriter v_writer;
 }

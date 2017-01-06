@@ -8,7 +8,8 @@
  */
 package com.softlagos.httpserver;
 
-import java.io.PrintWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,7 +33,7 @@ public final class HttpErrorHandler
      * @param ex the exception raised
      * @param writer the writer to send HTTP response
      */
-    public HttpErrorHandler(Exception ex, PrintWriter writer)
+    public HttpErrorHandler(Exception ex, OutputStreamWriter writer)
     {
         if(ex == null)
         {
@@ -70,13 +71,20 @@ public final class HttpErrorHandler
     /**
      * Send HTTP response.
      */
-    public void sendResponse()
+    public void sendResponse() throws IOException
     {
-        v_writer.println(v_response);
+        if( (v_response == null) || (v_response.toString() == null) )
+        {
+            throw new IllegalStateException("v_response cannot be empty.");
+        }
+
+        String resp = v_response.toString();
+        v_writer.write(resp, 0, resp.length());
+        v_writer.flush();
     }
 
     /** The v_status_line. */
     // ------ >>> Private <<< ------
-    private final PrintWriter v_writer;
+    private final OutputStreamWriter v_writer;
     private final HttpResponse v_response;
 }

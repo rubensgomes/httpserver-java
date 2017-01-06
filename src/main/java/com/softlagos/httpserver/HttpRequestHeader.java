@@ -11,6 +11,9 @@ package com.softlagos.httpserver;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.softlagos.httpserver.enums.HttpHeaderType;
 
 /**
@@ -23,6 +26,9 @@ import com.softlagos.httpserver.enums.HttpHeaderType;
  */
 public final class HttpRequestHeader
 {
+    /** The logger. */
+    private static final Logger logger =
+            LogManager.getLogger(HttpRequestHeader.class);
 
     /**
      * Instantiates a new HTTP request header using the given
@@ -65,7 +71,10 @@ public final class HttpRequestHeader
         if( ! HttpHeaderType.isHeaderField(key) )
         {
             String msg = "header field [" + key + "] is not supported.";
-            throw new HttpClientErrorException(400, msg);
+            if(logger.isInfoEnabled())
+            {
+                logger.info(msg);
+            }
         }
 
         v_headers.put(key, value);

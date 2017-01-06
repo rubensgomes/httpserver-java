@@ -135,7 +135,8 @@ public final class HttpRequest
         if(version.matches("HTTP/1.1"))
         {
             Map<String, String> headers = v_header.getHeaders();
-            if ( headers.get(HttpHeaderType.HOST) == null)
+            String value = headers.get(HttpHeaderType.HOST.getFieldName());
+            if ( value == null)
             {
                 msg = "A client MUST include a Host header field in all HTTP/1.1 request messages";
                 throw new HttpClientErrorException(400, msg);
