@@ -1,7 +1,10 @@
-# httpserver
+# Justification for this project
 
-The httpserver is simple implementation of an HTTP server . This is personal 
-project developed by [Rubens](http://www.rubens-gomes.com).
+NOTE: This code is not fully tested, and should be considered under development code.
+The source code that is provided are mainly used for demonostrations and learning purposes only.
+
+The httpserver is simple implementation of an HTTP server. I wrote this project as a fun
+learning exercise.
 
 **This is a work in progress !**
 
